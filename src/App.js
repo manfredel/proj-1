@@ -17,6 +17,8 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import InputAdornment from "@mui/material/InputAdornment";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
 
 const App = () => {
   const [goalValue, setGoalValue] = useState({
@@ -74,7 +76,6 @@ const onSubmitGoals = (goalValue) => {
   const handleGoalSubmit = (event, reason) => {
     console.log(event);
     event.preventDefault();
-
     setGoalValue((prevGoals) => {
       return {
         ...prevGoals,
@@ -95,6 +96,7 @@ const onSubmitGoals = (goalValue) => {
   const handleActChange = (event) => {
     console.log(event.target);
     const { name, value } = event.target;
+    setMonths(event.target.value);
     setActualValue((prevActualValue) => ({
       ...prevActualValue,
       [name]: value,
@@ -102,35 +104,33 @@ const onSubmitGoals = (goalValue) => {
     console.log(goalValue);
   };
 
-const handleActSubmit = (event, reason) => {
+  const handleActSubmit = (event, reason) => {
     console.log(event);
-    event.preventDefault();    
-      setCatActual((prevGoals) => (
-       {
-          ...prevGoals,
-          savings: actualValue.savings,
-          food: actualValue.food,
-          transport: actualValue.transport,
-          shopEntertain: actualValue.shopEntertain,
-          bills: actualValue.bills,
-          others: actualValue.others,
-        }
-      ));
-      setActualValue({
-        savings: "",
-        food: "",
-        transport: "",
-        shopEntertain: "",
-        bills: "",
-        others: "",
-      });
+    event.preventDefault();
+    setMonths(months);
+    setCatActual((prevGoals) => ({
+      ...prevGoals,
+      savings: actualValue.savings,
+      food: actualValue.food,
+      transport: actualValue.transport,
+      shopEntertain: actualValue.shopEntertain,
+      bills: actualValue.bills,
+      others: actualValue.others,
+    }));
+    setActualValue({
+      savings: "",
+      food: "",
+      transport: "",
+      shopEntertain: "",
+      bills: "",
+      others: "",
+    });
 
     if (reason !== "backdropClick") {
       setOpen(false);
     }
     console.log(goalValue);
   };
-
 
   const sumTotal = (value) => {
     let value2 = +value;
@@ -158,7 +158,6 @@ const handleActSubmit = (event, reason) => {
         <h1>Monies App</h1>
         <div className="datePeriod">
           <h3>Month: {months}</h3>
-          <h3> Year: {years}</h3>
         </div>
         <div className="table">
           <TableContainer component={Paper}>
@@ -177,7 +176,7 @@ const handleActSubmit = (event, reason) => {
                 >
                   <TableCell component="th" scope="row">
                     Savings
-                  </TableCell>
+                 </TableCell>
                   <TableCell align="right">{goalValue.savings}</TableCell>
                   <TableCell align="right">{catActual.savings}</TableCell>
                   <TableCell align="right">Cal</TableCell>
@@ -351,7 +350,9 @@ const handleActSubmit = (event, reason) => {
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
-                <Button type="submit" value="submit">Ok</Button>
+                <Button type="submit" value="submit">
+                  Ok
+                </Button>
               </DialogActions>
             </form>
           </Dialog>
@@ -366,6 +367,33 @@ const handleActSubmit = (event, reason) => {
               <form className="inputForm" onSubmit={handleActSubmit}>
                 <DialogTitle>Fill the form</DialogTitle>
                 <DialogContent>
+                  <Box sx={{ width: 130 }}>
+                    <FormControl fullWidth>
+                      <InputLabel id="demo-simple-select-label">
+                        Month
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={months}
+                        label="month"
+                        onChange={handleActChange}
+                      >
+                        <MenuItem value="January">January</MenuItem>
+                        <MenuItem value="February">February</MenuItem>
+                        <MenuItem value="March">March</MenuItem>
+                        <MenuItem value="April">April</MenuItem>
+                        <MenuItem value="May">May</MenuItem>
+                        <MenuItem value="June">June</MenuItem>
+                        <MenuItem value="July">July</MenuItem>
+                        <MenuItem value="August">August</MenuItem>
+                        <MenuItem value="September">September</MenuItem>
+                        <MenuItem value="October">October</MenuItem>
+                        <MenuItem value="November">November</MenuItem>
+                        <MenuItem value="December">December</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Box>
                   <Box
                     component="form"
                     sx={{ display: "flex", flexWrap: "wrap" }}
@@ -461,7 +489,9 @@ const handleActSubmit = (event, reason) => {
                 </DialogContent>
                 <DialogActions>
                   <Button onClick={handleClose}>Cancel</Button>
-                  <Button type="submit" value="submit">Ok</Button>
+                  <Button type="submit" value="submit">
+                    Ok
+                  </Button>
                 </DialogActions>
               </form>
             </Dialog>
