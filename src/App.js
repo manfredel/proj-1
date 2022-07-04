@@ -1,25 +1,475 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import InputLabel from "@mui/material/InputLabel";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import FormControl from "@mui/material/FormControl";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import InputAdornment from "@mui/material/InputAdornment";
 
-function App() {
+const App = () => {
+  const [goalValue, setGoalValue] = useState({
+    savings: "",
+    food: "",
+    transport: "",
+    shopEntertain: "",
+    bills: "",
+    others: "",
+  });
+
+  const [actualValue, setActualValue] = useState({
+    savings: "",
+    food: "",
+    transport: "",
+    shopEntertain: "",
+    bills: "",
+    others: "",
+  });
+
+  const [catActual, setCatActual] = useState({
+    savings: "",
+    food: "",
+    transport: "",
+    shopEntertain: "",
+    bills: "",
+    others: "",
+  });
+
+  /* 
+const onSubmitGoals = (goalValue) => {
+  setCategoryGoals((prevCategoryGoals) => {
+    return[...prevCategoryGoals, goalValue ]
+  })
+} */
+
+  const [months, setMonths] = useState("January");
+  const [years, setYears] = useState(2022);
+  const [totalGoal, setTotalGoal] = useState(0);
+  const [totalActual, setTotalActual] = useState(0);
+  const [formSubmit, setFormSubmit] = useState(false);
+  const [goalSubmit, setGoalSubmit] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const handleGoalChange = (event) => {
+    console.log(event.target);
+    const { name, value } = event.target;
+    setGoalValue((prevGoalValue) => ({
+      ...prevGoalValue,
+      [name]: value,
+    }));
+    console.log(goalValue);
+  };
+
+  const handleGoalSubmit = (event, reason) => {
+    console.log(event);
+    event.preventDefault();
+
+    setGoalValue((prevGoals) => {
+      return {
+        ...prevGoals,
+        savings: goalValue.savings,
+        food: goalValue.food,
+        transport: goalValue.transport,
+        shopEntertain: goalValue.shopEntertain,
+        bills: goalValue.bills,
+        others: goalValue.others,
+      };
+    });
+    if (reason !== "backdropClick") {
+      setOpen(false);
+    }
+    console.log(goalValue);
+  };
+
+  const handleActChange = (event) => {
+    console.log(event.target);
+    const { name, value } = event.target;
+    setActualValue((prevActualValue) => ({
+      ...prevActualValue,
+      [name]: value,
+    }));
+    console.log(goalValue);
+  };
+
+const handleActSubmit = (event, reason) => {
+    console.log(event);
+    event.preventDefault();    
+      setCatActual((prevGoals) => (
+       {
+          ...prevGoals,
+          savings: actualValue.savings,
+          food: actualValue.food,
+          transport: actualValue.transport,
+          shopEntertain: actualValue.shopEntertain,
+          bills: actualValue.bills,
+          others: actualValue.others,
+        }
+      ));
+      setActualValue({
+        savings: "",
+        food: "",
+        transport: "",
+        shopEntertain: "",
+        bills: "",
+        others: "",
+      });
+
+    if (reason !== "backdropClick") {
+      setOpen(false);
+    }
+    console.log(goalValue);
+  };
+
+
+  const sumTotal = (value) => {
+    let value2 = +value;
+    let sum = 0;
+    for (let i = 0; i < value2.length; i++) {
+      sum += value2[i];
+    }
+    return sum;
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    event.preventDefault();
+    if (reason !== "backdropClick") {
+      setOpen(false);
+    }
+  };
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>Monies App</h1>
+        <div className="datePeriod">
+          <h3>Month: {months}</h3>
+          <h3> Year: {years}</h3>
+        </div>
+        <div className="table">
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Category</TableCell>
+                  <TableCell align="right">Goal Set</TableCell>
+                  <TableCell align="right">Expenditure</TableCell>
+                  <TableCell align="right">Calculation</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    Savings
+                  </TableCell>
+                  <TableCell align="right">{goalValue.savings}</TableCell>
+                  <TableCell align="right">{catActual.savings}</TableCell>
+                  <TableCell align="right">Cal</TableCell>
+                </TableRow>
+                <TableRow
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    Food
+                  </TableCell>
+                  <TableCell align="right">{goalValue.food}</TableCell>
+                  <TableCell align="right">{catActual.food}</TableCell>
+                  <TableCell align="right">Cal</TableCell>
+                </TableRow>
+                <TableRow
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    Transportation
+                  </TableCell>
+                  <TableCell align="right">{goalValue.transport}</TableCell>
+                  <TableCell align="right">{catActual.transport}</TableCell>
+                  <TableCell align="right">Cal</TableCell>
+                </TableRow>
+                <TableRow
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    Shopping & Entertainment
+                  </TableCell>
+                  <TableCell align="right">{goalValue.shopEntertain}</TableCell>
+                  <TableCell align="right">{catActual.shopEntertain}</TableCell>
+                  <TableCell align="right">Cal</TableCell>
+                </TableRow>
+                <TableRow
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    Bills
+                  </TableCell>
+                  <TableCell align="right">{goalValue.bills}</TableCell>
+                  <TableCell align="right">{catActual.bills}</TableCell>
+                  <TableCell align="right">Cal</TableCell>
+                </TableRow>
+                <TableRow
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    Others
+                  </TableCell>
+                  <TableCell align="right">{goalValue.others}</TableCell>
+                  <TableCell align="right">{catActual.others}</TableCell>
+                  <TableCell align="right">Cal</TableCell>
+                </TableRow>
+                <TableRow
+                  sx={{
+                    "&:last-child td, &:last-child th": { border: 0 },
+                  }}
+                  className="total"
+                >
+                  <TableCell component="th" scope="row">
+                    Total
+                  </TableCell>
+                  <TableCell align="right">{sumTotal(goalValue)}</TableCell>
+                  <TableCell align="right">{catActual.others}</TableCell>
+                  <TableCell align="right">Cal</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+        <Box>
+          <Button onClick={handleClickOpen} variant="contained">
+            Goal Setting
+          </Button>
+
+          <Dialog disableEscapeKeyDown open={open}>
+            <form className="inputForm" onSubmit={handleGoalSubmit}>
+              <DialogTitle>Fill the form</DialogTitle>
+              <DialogContent>
+                <Box
+                  component="form"
+                  sx={{ display: "flex", flexWrap: "wrap" }}
+                >
+                  <FormControl sx={{ m: 1, minWidth: 120 }}>
+                    <InputLabel id="outlined-adornment-amount">
+                      Savings
+                    </InputLabel>
+                    <OutlinedInput
+                      type="text"
+                      name="savings"
+                      value={goalValue.savings}
+                      onChange={handleGoalChange}
+                      startAdornment={
+                        <InputAdornment position="start">$</InputAdornment>
+                      }
+                    />
+                  </FormControl>
+                  <FormControl sx={{ m: 1, minWidth: 120 }}>
+                    <InputLabel id="outlined-adornment-amount">Food</InputLabel>
+                    <OutlinedInput
+                      type="text"
+                      name="food"
+                      value={goalValue.food}
+                      onChange={handleGoalChange}
+                      startAdornment={
+                        <InputAdornment position="start">$</InputAdornment>
+                      }
+                    />
+                  </FormControl>
+
+                  <FormControl sx={{ m: 1, minWidth: 120 }}>
+                    <InputLabel id="outlined-adornment-amount">
+                      Transportation
+                    </InputLabel>
+                    <OutlinedInput
+                      type="text"
+                      name="transport"
+                      value={goalValue.transport}
+                      onChange={handleGoalChange}
+                      startAdornment={
+                        <InputAdornment position="start">$</InputAdornment>
+                      }
+                    />
+                  </FormControl>
+
+                  <FormControl sx={{ m: 1, minWidth: 120 }}>
+                    <InputLabel id="outlined-adornment-amount">
+                      Shopping & Entertainment
+                    </InputLabel>
+                    <OutlinedInput
+                      type="text"
+                      name="shopEntertain"
+                      value={goalValue.shopEntertain}
+                      onChange={handleGoalChange}
+                      startAdornment={
+                        <InputAdornment position="start">$</InputAdornment>
+                      }
+                    />
+                  </FormControl>
+
+                  <FormControl sx={{ m: 1, minWidth: 120 }}>
+                    <InputLabel id="outlined-adornment-amount">
+                      Bills
+                    </InputLabel>
+                    <OutlinedInput
+                      type="text"
+                      name="bills"
+                      value={goalValue.bills}
+                      onChange={handleGoalChange}
+                      startAdornment={
+                        <InputAdornment position="start">$</InputAdornment>
+                      }
+                    />
+                  </FormControl>
+                  <FormControl sx={{ m: 1, minWidth: 120 }}>
+                    <InputLabel id="outlined-adornment-amount">
+                      Others
+                    </InputLabel>
+                    <OutlinedInput
+                      type="text"
+                      name="others"
+                      value={goalValue.others}
+                      onChange={handleGoalChange}
+                      startAdornment={
+                        <InputAdornment position="start">$</InputAdornment>
+                      }
+                    />
+                  </FormControl>
+                </Box>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose}>Cancel</Button>
+                <Button type="submit" value="submit">Ok</Button>
+              </DialogActions>
+            </form>
+          </Dialog>
+        </Box>
+        <div>
+          <Box>
+            <Button onClick={handleClickOpen} variant="contained">
+              Expenditure
+            </Button>
+
+            <Dialog disableEscapeKeyDown open={open}>
+              <form className="inputForm" onSubmit={handleActSubmit}>
+                <DialogTitle>Fill the form</DialogTitle>
+                <DialogContent>
+                  <Box
+                    component="form"
+                    sx={{ display: "flex", flexWrap: "wrap" }}
+                  >
+                    <FormControl sx={{ m: 1, minWidth: 120 }}>
+                      <InputLabel id="outlined-adornment-amount">
+                        Savings
+                      </InputLabel>
+                      <OutlinedInput
+                        type="text"
+                        name="savings"
+                        value={actualValue.savings}
+                        onChange={handleActChange}
+                        startAdornment={
+                          <InputAdornment position="start">$</InputAdornment>
+                        }
+                      />
+                    </FormControl>
+                    <FormControl sx={{ m: 1, minWidth: 120 }}>
+                      <InputLabel id="outlined-adornment-amount">
+                        Food
+                      </InputLabel>
+                      <OutlinedInput
+                        type="text"
+                        name="food"
+                        value={actualValue.food}
+                        onChange={handleActChange}
+                        startAdornment={
+                          <InputAdornment position="start">$</InputAdornment>
+                        }
+                      />
+                    </FormControl>
+
+                    <FormControl sx={{ m: 1, minWidth: 120 }}>
+                      <InputLabel id="outlined-adornment-amount">
+                        Transportation
+                      </InputLabel>
+                      <OutlinedInput
+                        type="text"
+                        name="transport"
+                        value={actualValue.transport}
+                        onChange={handleActChange}
+                        startAdornment={
+                          <InputAdornment position="start">$</InputAdornment>
+                        }
+                      />
+                    </FormControl>
+
+                    <FormControl sx={{ m: 1, minWidth: 120 }}>
+                      <InputLabel id="outlined-adornment-amount">
+                        Shopping & Entertainment
+                      </InputLabel>
+                      <OutlinedInput
+                        type="text"
+                        name="shopEntertain"
+                        value={actualValue.shopEntertain}
+                        onChange={handleActChange}
+                        startAdornment={
+                          <InputAdornment position="start">$</InputAdornment>
+                        }
+                      />
+                    </FormControl>
+
+                    <FormControl sx={{ m: 1, minWidth: 120 }}>
+                      <InputLabel id="outlined-adornment-amount">
+                        Bills
+                      </InputLabel>
+                      <OutlinedInput
+                        type="text"
+                        name="bills"
+                        value={actualValue.bills}
+                        onChange={handleActChange}
+                        startAdornment={
+                          <InputAdornment position="start">$</InputAdornment>
+                        }
+                      />
+                    </FormControl>
+                    <FormControl sx={{ m: 1, minWidth: 120 }}>
+                      <InputLabel id="outlined-adornment-amount">
+                        Others
+                      </InputLabel>
+                      <OutlinedInput
+                        type="text"
+                        name="others"
+                        value={actualValue.others}
+                        onChange={handleActChange}
+                        startAdornment={
+                          <InputAdornment position="start">$</InputAdornment>
+                        }
+                      />
+                    </FormControl>
+                  </Box>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose}>Cancel</Button>
+                  <Button type="submit" value="submit">Ok</Button>
+                </DialogActions>
+              </form>
+            </Dialog>
+          </Box>
+        </div>
       </header>
     </div>
   );
-}
+};
 
 export default App;

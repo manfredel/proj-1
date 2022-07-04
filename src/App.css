@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  background-color: #61dafb;
 }
 
 .App-logo {
@@ -24,7 +25,10 @@
   color: white;
 }
 
-.App-link {
+/* .bar:hover {
+  color: green;
+} */
+*/ .App-link {
   color: #61dafb;
 }
 
@@ -35,4 +39,18 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+input {
+  width: 150px;
+  height: 20px;
+  flex-grow: 2;
+}
+
+.total {
+  font-style: italic;  
+}
+
+.datePeriod {
+  display: flex;
 }

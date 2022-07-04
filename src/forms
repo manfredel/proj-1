@@ -1,0 +1,417 @@
+import React, { useState } from "react";
+import Box from "@mui/material/Box";
+import InputAdornment from "@mui/material/InputAdornment";
+import FormControl from "@mui/material/FormControl";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+
+const FormGoals = ({ categoryGoals }) => {
+  const [goalValue, setGoalValue] = useState({
+    savings: "",
+    food: "",
+    transport: 0,
+    shopEntertain: 0,
+    bills: 0,
+    others: 0,
+  });
+
+  const [months, setMonths] = useState("");
+  const [years, setYears] = useState(2022);
+
+  const [formSubmit, setFormSubmit] = useState(false);
+
+  const [open, setOpen] = React.useState(false);
+  const [age, setAge] = React.useState("");
+
+  const handleChange = (event) => {
+    console.log(event.target);
+    const { name, value } = event.target;
+    setGoalValue((prevGoalForm) => ({
+      ...prevGoalForm,
+      [name]: value,
+    }));
+  };
+
+  const handleFormSubmit = (event) => {
+    console.log(event);
+    event.preventDefault();
+    setFormSubmit(true);
+
+    setGoalValue((prevGoals) => {
+      return {
+        ...prevGoals,
+        savings: goalValue.savings,
+        food: goalValue.food,
+      };
+    });
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason !== "backdropClick") {
+      setOpen(false);
+    }
+  };
+
+  return (
+    <form className="inputForm">
+      <div>
+        <Button onClick={handleClickOpen} variant="contained">
+          Goal Setting
+        </Button>
+        <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
+          <DialogTitle>Fill the form</DialogTitle>
+          <DialogContent>
+            <Box component="form" sx={{ display: "flex", flexWrap: "wrap" }}>
+              <FormControl sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel id="outlined-adornment-amount">Savings</InputLabel>
+                <OutlinedInput
+                  type="text"
+                  name="savings"
+                  value={goalValue.savings}
+                  onChange={handleChange}
+                  startAdornment={
+                    <InputAdornment position="start">$</InputAdornment>
+                  }
+                />
+              </FormControl>
+              <FormControl sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel id="outlined-adornment-amount">Food</InputLabel>
+                <OutlinedInput
+                  type="text"
+                  name="food"
+                  value={goalValue.food}
+                  onChange={handleChange}
+                  startAdornment={
+                    <InputAdornment position="start">$</InputAdornment>
+                  }
+                />
+              </FormControl>
+
+              <FormControl sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel id="outlined-adornment-amount">
+                  Transportation
+                </InputLabel>
+                <OutlinedInput
+                  type="text"
+                  name="transport"
+                  value={goalValue.transport}
+                  onChange={handleChange}
+                  startAdornment={
+                    <InputAdornment position="start">$</InputAdornment>
+                  }
+                />
+              </FormControl>
+
+              <FormControl sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel id="outlined-adornment-amount">
+                  Shopping & Entertainment
+                </InputLabel>
+                <OutlinedInput
+                  type="text"
+                  name="shopEntertain"
+                  value={goalValue.shopEntertain}
+                  onChange={handleChange}
+                  startAdornment={
+                    <InputAdornment position="start">$</InputAdornment>
+                  }
+                />
+              </FormControl>
+
+              <FormControl sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel id="outlined-adornment-amount">Bills</InputLabel>
+                <OutlinedInput
+                  type="text"
+                  name="bills"
+                  value={goalValue.bills}
+                  onChange={handleChange}
+                  startAdornment={
+                    <InputAdornment position="start">$</InputAdornment>
+                  }
+                />
+              </FormControl>
+              <FormControl sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel id="outlined-adornment-amount">Others</InputLabel>
+                <OutlinedInput
+                  type="text"
+                  name="others"
+                  value={goalValue.others}
+                  onChange={handleChange}
+                  startAdornment={
+                    <InputAdornment position="start">$</InputAdornment>
+                  }
+                />
+              </FormControl>
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleClose} type="submit">
+              Ok
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+
+      {/* <Box className="inputBoxes" sx={{ display: "flex" }}>
+        <div>
+          <FormControl fullWidth sx={{ display: "flex", flexWrap: "wrap" }}>
+            <InputLabel htmlFor="outlined-adornment-amount">Savings</InputLabel>
+            <OutlinedInput
+              type="text"
+              name="savings"
+              value={goalValue.saving}
+              onChange={handleChange}
+              startAdornment={
+                <InputAdornment position="start">$</InputAdornment>
+              }
+              required
+              sx={{ m: 1, width: "15ch" }}
+            />
+          </FormControl>
+        </div>
+        <div>
+          <FormControl fullWidth sx={{ display: "flex", flexWrap: "wrap" }}>
+            <InputLabel htmlFor="outlined-adornment-amount">Food</InputLabel>
+            <OutlinedInput
+              type="text"
+              name="food"
+              value={goalValue.food}
+              onChange={handleChange}
+              startAdornment={
+                <InputAdornment position="start">$</InputAdornment>
+              }
+              label="Food"
+              required
+              sx={{ m: 1, width: "15ch" }}
+            />
+          </FormControl>
+        </div>
+        <div>
+          <FormControl fullWidth sx={{ display: "flex", flexWrap: "wrap" }}>
+            <InputLabel htmlFor="outlined-adornment-amount">
+              Transportation
+            </InputLabel>
+            <OutlinedInput
+              type="text"
+              name="transport"
+              value={goalValue.transport}
+              onChange={handleChange}
+              startAdornment={
+                <InputAdornment position="start">$</InputAdornment>
+              }
+              label="transport"
+              required
+              sx={{ m: 1, width: "15ch" }}
+            />
+          </FormControl>
+        </div>
+        <div>
+          <FormControl fullWidth sx={{ display: "flex", flexWrap: "wrap" }}>
+            <InputLabel htmlFor="outlined-adornment-amount">
+              Shopping & Entertainment
+            </InputLabel>
+            <OutlinedInput
+              type="text"
+              name="shopEntertain"
+              value={goalValue.shopEntertain}
+              onChange={handleChange}
+              startAdornment={
+                <InputAdornment position="start">$</InputAdornment>
+              }
+              label="shopEntertain"
+              required
+              sx={{ m: 1, width: "15ch" }}
+            />
+          </FormControl>
+        </div>
+        <div>
+          <FormControl fullWidth sx={{ display: "flex", flexWrap: "wrap" }}>
+            <InputLabel htmlFor="outlined-adornment-amount">Bills</InputLabel>
+            <OutlinedInput
+              type="text"
+              name="bills"
+              value={goalValue.bills}
+              onChange={handleChange}
+              startAdornment={
+                <InputAdornment position="start">$</InputAdornment>
+              }
+              label="bills"
+              required
+              sx={{ m: 1, width: "15ch" }}
+            />
+          </FormControl>
+        </div>
+        <div>
+          <FormControl fullWidth sx={{ display: "flex", flexWrap: "wrap" }}>
+            <InputLabel htmlFor="outlined-adornment-amount">Others</InputLabel>
+            <OutlinedInput
+              type="text"
+              name="others"
+              value={goalValue.others}
+              onChange={handleChange}
+              startAdornment={
+                <InputAdornment position="start">$</InputAdornment>
+              }
+              label="others"
+              required
+              sx={{ m: 1, width: "15ch" }}
+            />
+          </FormControl>
+        </div>
+      </Box>
+
+      <button type="submit">Submit</button>
+    </form>
+
+    
+  <div>
+    <form className="inputForm" onSubmit={handleFormSubmit}>
+      <div>
+        <fieldset>
+          <span>Date</span>
+          <select name="month" onChange={handleChange}>
+            <option value=""> Choose a month</option>
+            <option value="jan">January</option>
+            <option value="feb">Febuary</option>
+            <option value="mar">March</option>
+            <option value="apr">April</option>
+            <option value="may">May</option>
+            <option value="jun">June</option>
+            <option value="jul">Jul</option>
+            <option value="aug">August</option>
+            <option value="sep">September</option>
+            <option value="oct">October</option>
+            <option value="nov">November</option>
+            <option value="dec">December</option>
+          </select>
+        </fieldset>
+      </div>
+      <div className="rowleft">
+        <Box className="inputBoxes" sx={{ display: "flex" }}>
+          <div>
+            <FormControl fullWidth sx={{ display: "flex", flexWrap: "wrap" }}>
+              <InputLabel htmlFor="outlined-adornment-amount">
+                Savings
+              </InputLabel>
+              <OutlinedInput
+                type="text"
+                name="savings"
+                value={.saving}
+                onChange={handleChange}
+                startAdornment={
+                  <InputAdornment position="start">$</InputAdornment>
+                }
+                required
+                sx={{ m: 1, width: "15ch" }}
+              />
+            </FormControl>
+          </div>
+          <div>
+            <FormControl fullWidth sx={{ display: "flex", flexWrap: "wrap" }}>
+              <InputLabel htmlFor="outlined-adornment-amount">Food</InputLabel>
+              <OutlinedInput
+                type="text"
+                name="food"
+                value={formValue1.food}
+                onChange={handleChange}
+                startAdornment={
+                  <InputAdornment position="start">$</InputAdornment>
+                }
+                label="Food"
+                required
+                sx={{ m: 1, width: "15ch" }}
+              />
+            </FormControl>
+          </div>
+          <div>
+            <FormControl fullWidth sx={{ display: "flex", flexWrap: "wrap" }}>
+              <InputLabel htmlFor="outlined-adornment-amount">
+                Transportation
+              </InputLabel>
+              <OutlinedInput
+                type="text"
+                name="transport"
+                value={formValue1.transport}
+                onChange={handleChange}
+                startAdornment={
+                  <InputAdornment position="start">$</InputAdornment>
+                }
+                label="transport"
+                required
+                sx={{ m: 1, width: "15ch" }}
+              />
+            </FormControl>
+          </div>
+          <div>
+            <FormControl fullWidth sx={{ display: "flex", flexWrap: "wrap" }}>
+              <InputLabel htmlFor="outlined-adornment-amount">
+                Shopping & Entertainment
+              </InputLabel>
+              <OutlinedInput
+                type="text"
+                name="shopEntertain"
+                value={formValue1.shopEntertain}
+                onChange={handleChange}
+                startAdornment={
+                  <InputAdornment position="start">$</InputAdornment>
+                }
+                label="shopEntertain"
+                required
+                sx={{ m: 1, width: "15ch" }}
+              />
+            </FormControl>
+          </div>
+          <div>
+            <FormControl fullWidth sx={{ display: "flex", flexWrap: "wrap" }}>
+              <InputLabel htmlFor="outlined-adornment-amount">Bills</InputLabel>
+              <OutlinedInput
+                type="text"
+                name="bills"
+                value={formValue1.bills}
+                onChange={handleChange}
+                startAdornment={
+                  <InputAdornment position="start">$</InputAdornment>
+                }
+                label="bills"
+                required
+                sx={{ m: 1, width: "15ch" }}
+              />
+            </FormControl>
+          </div>
+          <div>
+            <FormControl fullWidth sx={{ display: "flex", flexWrap: "wrap" }}>
+              <InputLabel htmlFor="outlined-adornment-amount">
+                Others
+              </InputLabel>
+              <OutlinedInput
+                type="text"
+                name="others"
+                value={formValue1.others}
+                onChange={handleChange}
+                startAdornment={
+                  <InputAdornment position="start">$</InputAdornment>
+                }
+                label="others"
+                required
+                sx={{ m: 1, width: "15ch" }}
+              />
+            </FormControl>
+          </div>
+        </Box>
+      </div> */}
+    </form>
+  );
+};
+
+export default FormGoals;
