@@ -15,7 +15,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #afb5c2;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -57,4 +57,11 @@ input {
 
 .datePeriod {
   display: flex;
+  color: rgb(0, 0, 0);
+}
+
+.formArea {
+  display: flex;
+  justify-content: space-evenly;
+  width: 650px;
 }
