@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
+import { sumTotal } from "./functions";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -54,14 +55,13 @@ const onSubmitGoals = (goalValue) => {
     return[...prevCategoryGoals, goalValue ]
   })
 } */
-
-  const [months, setMonths] = useState("January");
-  const [years, setYears] = useState(2022);
   const [totalGoal, setTotalGoal] = useState(0);
   const [totalActual, setTotalActual] = useState(0);
-  const [formSubmit, setFormSubmit] = useState(false);
-  const [goalSubmit, setGoalSubmit] = useState(false);
+  const [totalCat, setTotalCat] = useState(0);
   const [open, setOpen] = useState(false);
+  const goalCal = sumTotal(goalValue);
+  const actualCal = sumTotal(actualValue);
+  const diffTotal = totalGoal - totalCat;
 
   const handleGoalChange = (event) => {
     console.log(event.target);
@@ -76,15 +76,16 @@ const onSubmitGoals = (goalValue) => {
   const handleGoalSubmit = (event, reason) => {
     console.log(event);
     event.preventDefault();
+    setTotalGoal(goalCal);
     setGoalValue((prevGoals) => {
       return {
         ...prevGoals,
-        savings: goalValue.savings,
-        food: goalValue.food,
-        transport: goalValue.transport,
-        shopEntertain: goalValue.shopEntertain,
-        bills: goalValue.bills,
-        others: goalValue.others,
+        savings: "$" + goalValue.savings,
+        food: "$" + goalValue.food,
+        transport: "$" + goalValue.transport,
+        shopEntertain: "$" + goalValue.shopEntertain,
+        bills: "$" + goalValue.bills,
+        others: "$" + goalValue.others,
       };
     });
     if (reason !== "backdropClick") {
@@ -96,7 +97,6 @@ const onSubmitGoals = (goalValue) => {
   const handleActChange = (event) => {
     console.log(event.target);
     const { name, value } = event.target;
-    setMonths(event.target.value);
     setActualValue((prevActualValue) => ({
       ...prevActualValue,
       [name]: value,
@@ -107,15 +107,15 @@ const onSubmitGoals = (goalValue) => {
   const handleActSubmit = (event, reason) => {
     console.log(event);
     event.preventDefault();
-    setMonths(months);
+    setTotalCat(actualCal);
     setCatActual((prevGoals) => ({
       ...prevGoals,
-      savings: actualValue.savings,
-      food: actualValue.food,
-      transport: actualValue.transport,
-      shopEntertain: actualValue.shopEntertain,
-      bills: actualValue.bills,
-      others: actualValue.others,
+      savings: "$" + actualValue.savings,
+      food: "$" + actualValue.food,
+      transport: "$" + actualValue.transport,
+      shopEntertain: "$" + actualValue.shopEntertain,
+      bills: "$" + actualValue.bills,
+      others: "$" + actualValue.others,
     }));
     setActualValue({
       savings: "",
@@ -130,15 +130,6 @@ const onSubmitGoals = (goalValue) => {
       setOpen(false);
     }
     console.log(goalValue);
-  };
-
-  const sumTotal = (value) => {
-    let value2 = +value;
-    let sum = 0;
-    for (let i = 0; i < value2.length; i++) {
-      sum += value2[i];
-    }
-    return sum;
   };
 
   const handleClickOpen = () => {
@@ -156,9 +147,7 @@ const onSubmitGoals = (goalValue) => {
     <div className="App">
       <header className="App-header">
         <h1>Monies App</h1>
-        <div className="datePeriod">
-          <h3>Month: {months}</h3>
-        </div>
+        <div className="datePeriod"></div>
         <div className="table">
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -176,7 +165,7 @@ const onSubmitGoals = (goalValue) => {
                 >
                   <TableCell component="th" scope="row">
                     Savings
-                 </TableCell>
+                  </TableCell>
                   <TableCell align="right">{goalValue.savings}</TableCell>
                   <TableCell align="right">{catActual.savings}</TableCell>
                   <TableCell align="right">Cal</TableCell>
@@ -240,9 +229,9 @@ const onSubmitGoals = (goalValue) => {
                   <TableCell component="th" scope="row">
                     Total
                   </TableCell>
-                  <TableCell align="right">{sumTotal(goalValue)}</TableCell>
-                  <TableCell align="right">{catActual.others}</TableCell>
-                  <TableCell align="right">Cal</TableCell>
+                  <TableCell align="right">${totalGoal}</TableCell>
+                  <TableCell align="right">${totalCat}</TableCell>
+                  <TableCell align="right">${diffTotal}</TableCell>
                 </TableRow>
               </TableBody>
             </Table>
@@ -348,6 +337,7 @@ const onSubmitGoals = (goalValue) => {
                   </FormControl>
                 </Box>
               </DialogContent>
+              <h3 className="inDialogTotal">Total: {goalCal}</h3>
               <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
                 <Button type="submit" value="submit">
@@ -367,7 +357,7 @@ const onSubmitGoals = (goalValue) => {
               <form className="inputForm" onSubmit={handleActSubmit}>
                 <DialogTitle>Fill the form</DialogTitle>
                 <DialogContent>
-                  <Box sx={{ width: 130 }}>
+                  {/*  <Box sx={{ width: 130 }}>
                     <FormControl fullWidth>
                       <InputLabel id="demo-simple-select-label">
                         Month
@@ -393,7 +383,7 @@ const onSubmitGoals = (goalValue) => {
                         <MenuItem value="December">December</MenuItem>
                       </Select>
                     </FormControl>
-                  </Box>
+                  </Box>*/}
                   <Box
                     component="form"
                     sx={{ display: "flex", flexWrap: "wrap" }}
@@ -487,6 +477,7 @@ const onSubmitGoals = (goalValue) => {
                     </FormControl>
                   </Box>
                 </DialogContent>
+                <h3 className="inDialogTotal">Total: {actualCal}</h3>
                 <DialogActions>
                   <Button onClick={handleClose}>Cancel</Button>
                   <Button type="submit" value="submit">

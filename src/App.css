@@ -25,6 +25,10 @@
   color: white;
 }
 
+.inDialogTotal {
+  margin-left: 50px;
+}
+
 /* .bar:hover {
   color: green;
 } */
@@ -48,7 +52,7 @@ input {
 }
 
 .total {
-  font-style: italic;  
+  font-style: italic;
 }
 
 .datePeriod {
