@@ -57,7 +57,7 @@ const onSubmitGoals = (goalValue) => {
 } */
   const [month, setMonth] = useState("January");
   const [totalGoal, setTotalGoal] = useState(0);
-  const [totalActual, setTotalActual] = useState(0);
+  //const [totalActual, setTotalActual] = useState(0);
   const [totalCat, setTotalCat] = useState(0);
   const [goalOpen, setGoalOpen] = useState(false);
   const [actOpen, setActOpen] = useState(false);
@@ -174,7 +174,7 @@ const onSubmitGoals = (goalValue) => {
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
-                <TableRow>
+                <TableRow sx={{ backgroundColor: "#e0e0e0" }}>
                   <TableCell>Category</TableCell>
                   <TableCell align="right">Goal Set</TableCell>
                   <TableCell align="right">Expenditure</TableCell>
@@ -261,6 +261,7 @@ const onSubmitGoals = (goalValue) => {
                 <TableRow
                   sx={{
                     "&:last-child td, &:last-child th": { border: 0 },
+                    backgroundColor: "#eeeeee",
                   }}
                   className="total"
                 >
@@ -405,9 +406,9 @@ const onSubmitGoals = (goalValue) => {
                 <Button
                   onClick={handleActClickOpen}
                   variant="contained"
-                  sx={{ px: "25px", py: "12px" }}
+                  sx={{ px: "37px", py: "12px" }}
                 >
-                  Expenditure
+                  Expenses
                 </Button>
               </Box>
             </div>
